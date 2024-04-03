@@ -60,153 +60,14 @@ xrdp keyboard module
 
 #define MIN_KEY_CODE 8
 #define MAX_KEY_CODE 255
-#define NO_OF_KEYS ((MAX_KEY_CODE - MIN_KEY_CODE) + 1)
-#define GLYPHS_PER_KEY 2
-/* control */
-#define CONTROL_L_KEY_CODE 37
-#define CONTROL_R_KEY_CODE 109
-/* shift */
-#define SHIFT_L_KEY_CODE 50
-#define SHIFT_R_KEY_CODE 62
-/* win keys */
-#define SUPER_L_KEY_CODE 115
-#define SUPER_R_KEY_CODE 116
-/* alt */
-#define ALT_L_KEY_CODE 64
-#define ALT_R_KEY_CODE 113
-/* caps lock */
-#define CAPS_LOCK_KEY_CODE 66
-/* num lock */
-#define NUM_LOCK_KEY_CODE 77
 
-#define N_PREDEFINED_KEYS \
-    (sizeof(g_kbdMap) / (sizeof(KeySym) * GLYPHS_PER_KEY))
-
-static char g_base_str[] = "base";
+static char g_evdev_str[] = "evdev";
 static char g_pc104_str[] = "pc104";
 static char g_us_str[] = "us";
 static char g_empty_str[] = "";
 static char g_Keyboard_str[] = "Keyboard";
 
 static char g_xrdp_keyb_name[] = XRDP_KEYB_NAME;
-
-static KeySym g_kbdMap[] =
-{
-    NoSymbol,        NoSymbol,        /* 8 */
-    XK_Escape,       NoSymbol,        /* 9 */
-    XK_1,            XK_exclam,       /* 10 */
-    XK_2,            XK_at,
-    XK_3,            XK_numbersign,
-    XK_4,            XK_dollar,
-    XK_5,            XK_percent,
-    XK_6,            XK_asciicircum,
-    XK_7,            XK_ampersand,
-    XK_8,            XK_asterisk,
-    XK_9,            XK_parenleft,
-    XK_0,            XK_parenright,
-    XK_minus,        XK_underscore,   /* 20 */
-    XK_equal,        XK_plus,
-    XK_BackSpace,    NoSymbol,
-    XK_Tab,          XK_ISO_Left_Tab,
-    XK_Q,            NoSymbol,
-    XK_W,            NoSymbol,
-    XK_E,            NoSymbol,
-    XK_R,            NoSymbol,
-    XK_T,            NoSymbol,
-    XK_Y,            NoSymbol,
-    XK_U,            NoSymbol,        /* 30 */
-    XK_I,            NoSymbol,
-    XK_O,            NoSymbol,
-    XK_P,            NoSymbol,
-    XK_bracketleft,  XK_braceleft,
-    XK_bracketright, XK_braceright,
-    XK_Return,       NoSymbol,
-    XK_Control_L,    NoSymbol,
-    XK_A,            NoSymbol,
-    XK_S,            NoSymbol,
-    XK_D,            NoSymbol,        /* 40 */
-    XK_F,            NoSymbol,
-    XK_G,            NoSymbol,
-    XK_H,            NoSymbol,
-    XK_J,            NoSymbol,
-    XK_K,            NoSymbol,
-    XK_L,            NoSymbol,
-    XK_semicolon,    XK_colon,
-    XK_apostrophe,   XK_quotedbl,
-    XK_grave,        XK_asciitilde,
-    XK_Shift_L,      NoSymbol,        /* 50 */
-    XK_backslash,    XK_bar,
-    XK_Z,            NoSymbol,
-    XK_X,            NoSymbol,
-    XK_C,            NoSymbol,
-    XK_V,            NoSymbol,
-    XK_B,            NoSymbol,
-    XK_N,            NoSymbol,
-    XK_M,            NoSymbol,
-    XK_comma,        XK_less,
-    XK_period,       XK_greater,      /* 60 */
-    XK_slash,        XK_question,
-    XK_Shift_R,      NoSymbol,
-    XK_KP_Multiply,  NoSymbol,
-    XK_Alt_L,        NoSymbol,
-    XK_space,        NoSymbol,
-    XK_Caps_Lock,    NoSymbol,
-    XK_F1,           NoSymbol,
-    XK_F2,           NoSymbol,
-    XK_F3,           NoSymbol,
-    XK_F4,           NoSymbol,        /* 70 */
-    XK_F5,           NoSymbol,
-    XK_F6,           NoSymbol,
-    XK_F7,           NoSymbol,
-    XK_F8,           NoSymbol,
-    XK_F9,           NoSymbol,
-    XK_F10,          NoSymbol,
-    XK_Num_Lock,     NoSymbol,
-    XK_Scroll_Lock,  NoSymbol,
-    XK_KP_Home,      XK_KP_7,
-    XK_KP_Up,        XK_KP_8,         /* 80 */
-    XK_KP_Prior,     XK_KP_9,
-    XK_KP_Subtract,  NoSymbol,
-    XK_KP_Left,      XK_KP_4,
-    XK_KP_Begin,     XK_KP_5,
-    XK_KP_Right,     XK_KP_6,
-    XK_KP_Add,       NoSymbol,
-    XK_KP_End,       XK_KP_1,
-    XK_KP_Down,      XK_KP_2,
-    XK_KP_Next,      XK_KP_3,
-    XK_KP_Insert,    XK_KP_0,         /* 90 */
-    XK_KP_Delete,    XK_KP_Decimal,
-    NoSymbol,        NoSymbol,
-    NoSymbol,        NoSymbol,
-    NoSymbol,        NoSymbol,
-    XK_F11,          NoSymbol,
-    XK_F12,          NoSymbol,
-    XK_Home,         NoSymbol,
-    XK_Up,           NoSymbol,
-    XK_Prior,        NoSymbol,
-    XK_Left,         NoSymbol,        /* 100 */
-    XK_Print,        NoSymbol,
-    XK_Right,        NoSymbol,
-    XK_End,          NoSymbol,
-    XK_Down,         NoSymbol,
-    XK_Next,         NoSymbol,
-    XK_Insert,       NoSymbol,
-    XK_Delete,       NoSymbol,
-    XK_KP_Enter,     NoSymbol,
-    XK_Control_R,    NoSymbol,
-    XK_Pause,        NoSymbol,        /* 110 */
-    XK_Print,        NoSymbol,
-    XK_KP_Divide,    NoSymbol,
-    XK_Alt_R,        NoSymbol,
-    NoSymbol,        NoSymbol,
-    XK_Super_L,      NoSymbol,
-    XK_Super_R,      NoSymbol,
-    XK_Menu,         NoSymbol,
-    NoSymbol,        NoSymbol,
-    NoSymbol,        NoSymbol,
-    NoSymbol,        NoSymbol,        /* 120 */
-    NoSymbol,        NoSymbol
-};
 
 static int
 rdpLoadLayout(rdpKeyboard *keyboard, struct xrdp_client_info *client_info);
@@ -288,6 +149,84 @@ KbdAddEvent(rdpKeyboard *keyboard, int down, int param1, int param2,
     is_spe = param4 & 512; /* 0x200 */
     x_scancode = 0;
 
+    if (is_ext) /* Media keys */
+    {
+        switch (rdp_scancode)
+        {
+            case 16: /* XF86AudioPrev */
+                sendDownUpKeyEvent(keyboard->device, type, 173);
+                return;
+
+            case 25: /* XF86AudioNext */
+                sendDownUpKeyEvent(keyboard->device, type, 171);
+                return;
+
+            case 32: /* XF86AudioMute */
+                sendDownUpKeyEvent(keyboard->device, type, 121);
+                return;
+
+            case 34: /* XF86AudioPlay */
+                sendDownUpKeyEvent(keyboard->device, type, 172);
+                return;
+
+            case 36: /* XF86AudioStop */
+                sendDownUpKeyEvent(keyboard->device, type, 174);
+                return;
+
+            case 46: /* XF86AudioLowerVolume */
+                sendDownUpKeyEvent(keyboard->device, type, 122);
+                return;
+
+            case 48: /* XF86AudioRaiseVolume */
+                sendDownUpKeyEvent(keyboard->device, type, 123);
+                return;
+
+            case 50: /* XF86HomePage */
+                sendDownUpKeyEvent(keyboard->device, type, 180);
+                return;
+
+            case 101: /* XF86Search */
+                sendDownUpKeyEvent(keyboard->device, type, 225);
+                return;
+
+            case 102: /* XF86Favorites */
+                sendDownUpKeyEvent(keyboard->device, type, 164);
+                return;
+
+            case 103: /* XF86Reload */
+                sendDownUpKeyEvent(keyboard->device, type, 181);
+                return;
+
+            case 104: /* Cancel */
+                sendDownUpKeyEvent(keyboard->device, type, 136);
+                return;
+
+            case 105: /* XF86Forward */
+                sendDownUpKeyEvent(keyboard->device, type, 167);
+                return;
+
+            case 106: /* XF86Back */
+                sendDownUpKeyEvent(keyboard->device, type, 166);
+                return;
+
+            case 108: /* XF86Mail */
+                sendDownUpKeyEvent(keyboard->device, type, 163);
+                return;
+
+            case 109: /* XF86AudioMedia */
+                sendDownUpKeyEvent(keyboard->device, type, 234);
+                return;
+
+            case 110: /* XF86Launch1 */
+                sendDownUpKeyEvent(keyboard->device, type, 156);
+                return;
+
+            case 111: /* XF86Launch2 */
+                sendDownUpKeyEvent(keyboard->device, type, 157);
+                return;
+        }
+    }
+
     switch (rdp_scancode)
     {
         case 58: /* caps lock             */
@@ -307,7 +246,7 @@ KbdAddEvent(rdpKeyboard *keyboard, int down, int param1, int param2,
 
             if (is_ext)
             {
-                x_scancode = 113; /* right alt button */
+                x_scancode = 108; /* right alt button */
             }
             else
             {
@@ -345,7 +284,7 @@ KbdAddEvent(rdpKeyboard *keyboard, int down, int param1, int param2,
             }
             else
             {
-                x_scancode = is_ext ? 109 : 37;
+                x_scancode = is_ext ? 105 : 37;
                 keyboard->ctrl_down = down ? x_scancode : 0;
                 rdpEnqueueKey(keyboard->device, type, x_scancode);
             }
@@ -356,7 +295,7 @@ KbdAddEvent(rdpKeyboard *keyboard, int down, int param1, int param2,
 
             if (keyboard->pause_spe)
             {
-                x_scancode = 110;
+                x_scancode = 127;
 
                 if (!down)
                 {
@@ -365,103 +304,103 @@ KbdAddEvent(rdpKeyboard *keyboard, int down, int param1, int param2,
             }
             else
             {
-                x_scancode = keyboard->ctrl_down ? 110 : 77;
+                x_scancode = keyboard->ctrl_down ? 127 : 77;
             }
 
             sendDownUpKeyEvent(keyboard->device, type, x_scancode);
             break;
 
         case 28: /* Enter or Return */
-            x_scancode = is_ext ? 108 : 36;
+            x_scancode = is_ext ? 104 : 36;
             sendDownUpKeyEvent(keyboard->device, type, x_scancode);
             break;
 
         case 53: /* / */
-            x_scancode = is_ext ? 112 : 61;
+            x_scancode = is_ext ? 106 : 61;
             sendDownUpKeyEvent(keyboard->device, type, x_scancode);
             break;
 
         case 55: /* * on KP or Print Screen */
-            x_scancode = is_ext ? 111 : 63;
+            x_scancode = is_ext ? 107 : 63;
             sendDownUpKeyEvent(keyboard->device, type, x_scancode);
             break;
 
         case 71: /* 7 or Home */
-            x_scancode = is_ext ? 97 : 79;
+            x_scancode = is_ext ? 110 : 79;
             sendDownUpKeyEvent(keyboard->device, type, x_scancode);
             break;
 
         case 72: /* 8 or Up */
-            x_scancode = is_ext ? 98 : 80;
+            x_scancode = is_ext ? 111 : 80;
             sendDownUpKeyEvent(keyboard->device, type, x_scancode);
             break;
 
         case 73: /* 9 or PgUp */
-            x_scancode = is_ext ? 99 : 81;
+            x_scancode = is_ext ? 112 : 81;
             sendDownUpKeyEvent(keyboard->device, type, x_scancode);
             break;
 
         case 75: /* 4 or Left */
-            x_scancode = is_ext ? 100 : 83;
+            x_scancode = is_ext ? 113 : 83;
             sendDownUpKeyEvent(keyboard->device, type, x_scancode);
             break;
 
         case 77: /* 6 or Right */
-            x_scancode = is_ext ? 102 : 85;
+            x_scancode = is_ext ? 114 : 85;
             sendDownUpKeyEvent(keyboard->device, type, x_scancode);
             break;
 
         case 79: /* 1 or End */
-            x_scancode = is_ext ? 103 : 87;
+            x_scancode = is_ext ? 115 : 87;
             sendDownUpKeyEvent(keyboard->device, type, x_scancode);
             break;
 
         case 80: /* 2 or Down */
-            x_scancode = is_ext ? 104 : 88;
+            x_scancode = is_ext ? 116 : 88;
             sendDownUpKeyEvent(keyboard->device, type, x_scancode);
             break;
 
         case 81: /* 3 or PgDn */
-            x_scancode = is_ext ? 105 : 89;
+            x_scancode = is_ext ? 117 : 89;
             sendDownUpKeyEvent(keyboard->device, type, x_scancode);
             break;
 
         case 82: /* 0 or Insert */
-            x_scancode = is_ext ? 106 : 90;
+            x_scancode = is_ext ? 118 : 90;
             sendDownUpKeyEvent(keyboard->device, type, x_scancode);
             break;
 
         case 83: /* . or Delete */
-            x_scancode = is_ext ? 107 : 91;
+            x_scancode = is_ext ? 119 : 91;
             sendDownUpKeyEvent(keyboard->device, type, x_scancode);
             break;
 
         case 91: /* left win key */
-            rdpEnqueueKey(keyboard->device, type, 115);
+            rdpEnqueueKey(keyboard->device, type, 133);
             break;
 
         case 92: /* right win key */
-            rdpEnqueueKey(keyboard->device, type, 116);
+            rdpEnqueueKey(keyboard->device, type, 134);
             break;
 
         case 93: /* menu key */
-            rdpEnqueueKey(keyboard->device, type, 117);
+            rdpEnqueueKey(keyboard->device, type, 135);
             break;
 
         case 89: /* left meta */
-            rdpEnqueueKey(keyboard->device, type, 156);
+            rdpEnqueueKey(keyboard->device, type, 205);
             break;
 
         case 90: /* right meta */
-            rdpEnqueueKey(keyboard->device, type, 156);
+            rdpEnqueueKey(keyboard->device, type, 205);
             break;
 
         case 115: /* "/ ?" on br keyboard */
-            sendDownUpKeyEvent(keyboard->device, type, 211);
+            sendDownUpKeyEvent(keyboard->device, type, 106);
             break;
 
         case 126: /* . on br keypad */
-            sendDownUpKeyEvent(keyboard->device, type, 134);
+            sendDownUpKeyEvent(keyboard->device, type, 129);
             break;
 
         default:
@@ -533,52 +472,6 @@ rdpInputKeyboard(rdpPtr dev, int msg, long param1, long param2,
 
     }
     return 0;
-}
-
-/******************************************************************************/
-void
-rdpkeybDeviceInit(DeviceIntPtr pDevice, KeySymsPtr pKeySyms, CARD8 *pModMap)
-{
-    int i;
-
-    LLOGLN(0, ("rdpkeybDeviceInit:"));
-    LLOGLN(10, ("  MAP_LENGTH %d GLYPHS_PER_KEY %d N_PREDEFINED_KEYS %d",
-           MAP_LENGTH, GLYPHS_PER_KEY, (int) N_PREDEFINED_KEYS));
-
-    for (i = 0; i < MAP_LENGTH; i++)
-    {
-        pModMap[i] = NoSymbol;
-    }
-
-    pModMap[SHIFT_L_KEY_CODE] = ShiftMask;
-    pModMap[SHIFT_R_KEY_CODE] = ShiftMask;
-    pModMap[CAPS_LOCK_KEY_CODE] = LockMask;
-    pModMap[CONTROL_L_KEY_CODE] = ControlMask;
-    pModMap[CONTROL_R_KEY_CODE] = ControlMask;
-    pModMap[ALT_L_KEY_CODE] = Mod1Mask;
-    pModMap[ALT_R_KEY_CODE] = Mod1Mask;
-    pModMap[NUM_LOCK_KEY_CODE] = Mod2Mask;
-    pModMap[SUPER_L_KEY_CODE] = Mod4Mask;
-    pModMap[SUPER_R_KEY_CODE] = Mod4Mask;
-    pKeySyms->minKeyCode = MIN_KEY_CODE;
-    pKeySyms->maxKeyCode = MAX_KEY_CODE;
-    pKeySyms->mapWidth = GLYPHS_PER_KEY;
-    pKeySyms->map = g_new0(KeySym, MAP_LENGTH * GLYPHS_PER_KEY);
-    if (pKeySyms->map == 0)
-    {
-        LLOGLN(0, ("rdpkeybDeviceInit: out of memory"));
-        exit(1);
-    }
-
-    for (i = 0; i < MAP_LENGTH * GLYPHS_PER_KEY; i++)
-    {
-        pKeySyms->map[i] = NoSymbol;
-    }
-
-    for (i = 0; i < N_PREDEFINED_KEYS * GLYPHS_PER_KEY; i++)
-    {
-        pKeySyms->map[i] = g_kbdMap[i];
-    }
 }
 
 /******************************************************************************/
@@ -675,8 +568,6 @@ rdpkeybChangeKeyboardControl(DeviceIntPtr pDev, KeybdCtrl *ctrl)
 static int
 rdpkeybControl(DeviceIntPtr device, int what)
 {
-    KeySymsRec keySyms;
-    CARD8 modMap[MAP_LENGTH];
     DevicePtr pDev;
     XkbRMLVOSet set;
     rdpPtr dev;
@@ -687,9 +578,8 @@ rdpkeybControl(DeviceIntPtr device, int what)
     switch (what)
     {
         case DEVICE_INIT:
-            rdpkeybDeviceInit(device, &keySyms, modMap);
             memset(&set, 0, sizeof(set));
-            set.rules = g_base_str;
+            set.rules = g_evdev_str;
             set.model = g_pc104_str;
             set.layout = g_us_str;
             set.variant = g_empty_str;
@@ -866,7 +756,7 @@ rdpLoadLayout(rdpKeyboard *keyboard, struct xrdp_client_info *client_info)
     LLOGLN(0, ("rdpLoadLayout: keylayout 0x%8.8x variant %s display %s",
                keylayout, client_info->variant, display));
     memset(&set, 0, sizeof(set));
-    set.rules = g_base_str;
+    set.rules = g_evdev_str;
 
     set.model = g_pc104_str;
     set.layout = g_us_str;
