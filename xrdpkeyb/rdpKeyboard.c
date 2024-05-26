@@ -147,112 +147,20 @@ KbdAddEvent(rdpKeyboard *keyboard, int down, int param1, int param2,
     rdp_scancode = param3;
     is_ext = param4 & 256; /* 0x100 */
     is_spe = param4 & 512; /* 0x200 */
-    x_scancode = 0;
-
-    if (is_ext) /* Media keys */
-    {
-        switch (rdp_scancode)
-        {
-            case 16: /* XF86AudioPrev */
-                sendDownUpKeyEvent(keyboard->device, type, 173);
-                return;
-
-            case 25: /* XF86AudioNext */
-                sendDownUpKeyEvent(keyboard->device, type, 171);
-                return;
-
-            case 32: /* XF86AudioMute */
-                sendDownUpKeyEvent(keyboard->device, type, 121);
-                return;
-
-            case 34: /* XF86AudioPlay */
-                sendDownUpKeyEvent(keyboard->device, type, 172);
-                return;
-
-            case 36: /* XF86AudioStop */
-                sendDownUpKeyEvent(keyboard->device, type, 174);
-                return;
-
-            case 46: /* XF86AudioLowerVolume */
-                sendDownUpKeyEvent(keyboard->device, type, 122);
-                return;
-
-            case 48: /* XF86AudioRaiseVolume */
-                sendDownUpKeyEvent(keyboard->device, type, 123);
-                return;
-
-            case 50: /* XF86HomePage */
-                sendDownUpKeyEvent(keyboard->device, type, 180);
-                return;
-
-            case 101: /* XF86Search */
-                sendDownUpKeyEvent(keyboard->device, type, 225);
-                return;
-
-            case 102: /* XF86Favorites */
-                sendDownUpKeyEvent(keyboard->device, type, 164);
-                return;
-
-            case 103: /* XF86Reload */
-                sendDownUpKeyEvent(keyboard->device, type, 181);
-                return;
-
-            case 104: /* Cancel */
-                sendDownUpKeyEvent(keyboard->device, type, 136);
-                return;
-
-            case 105: /* XF86Forward */
-                sendDownUpKeyEvent(keyboard->device, type, 167);
-                return;
-
-            case 106: /* XF86Back */
-                sendDownUpKeyEvent(keyboard->device, type, 166);
-                return;
-
-            case 108: /* XF86Mail */
-                sendDownUpKeyEvent(keyboard->device, type, 163);
-                return;
-
-            case 109: /* XF86AudioMedia */
-                sendDownUpKeyEvent(keyboard->device, type, 234);
-                return;
-
-            case 110: /* XF86Launch1 */
-                sendDownUpKeyEvent(keyboard->device, type, 156);
-                return;
-
-            case 111: /* XF86Launch2 */
-                sendDownUpKeyEvent(keyboard->device, type, 157);
-                return;
-        }
-    }
+    x_scancode = param1;
 
     switch (rdp_scancode)
     {
-        case 58: /* caps lock             */
-        case 42: /* left shift            */
-        case 54: /* right shift           */
-        case 70: /* scroll lock           */
-            x_scancode = rdp_scancode + MIN_KEY_CODE;
-
-            if (x_scancode > 0)
-            {
-                rdpEnqueueKey(keyboard->device, type, x_scancode);
-            }
-
-            break;
-
+        case 42: /* left shift              */
+        case 54: /* right shift             */
         case 56: /* left - right alt button */
-
-            if (is_ext)
-            {
-                x_scancode = 108; /* right alt button */
-            }
-            else
-            {
-                x_scancode = 64;  /* left alt button   */
-            }
-
+        case 58: /* caps lock               */
+        case 70: /* scroll lock             */
+        case 89: /* left meta               */
+        case 90: /* right meta              */
+        case 91: /* left win key            */
+        case 92: /* right win key           */
+        case 93: /* menu key                */
             rdpEnqueueKey(keyboard->device, type, x_scancode);
             break;
 
@@ -310,107 +218,8 @@ KbdAddEvent(rdpKeyboard *keyboard, int down, int param1, int param2,
             sendDownUpKeyEvent(keyboard->device, type, x_scancode);
             break;
 
-        case 28: /* Enter or Return */
-            x_scancode = is_ext ? 104 : 36;
-            sendDownUpKeyEvent(keyboard->device, type, x_scancode);
-            break;
-
-        case 53: /* / */
-            x_scancode = is_ext ? 106 : 61;
-            sendDownUpKeyEvent(keyboard->device, type, x_scancode);
-            break;
-
-        case 55: /* * on KP or Print Screen */
-            x_scancode = is_ext ? 107 : 63;
-            sendDownUpKeyEvent(keyboard->device, type, x_scancode);
-            break;
-
-        case 71: /* 7 or Home */
-            x_scancode = is_ext ? 110 : 79;
-            sendDownUpKeyEvent(keyboard->device, type, x_scancode);
-            break;
-
-        case 72: /* 8 or Up */
-            x_scancode = is_ext ? 111 : 80;
-            sendDownUpKeyEvent(keyboard->device, type, x_scancode);
-            break;
-
-        case 73: /* 9 or PgUp */
-            x_scancode = is_ext ? 112 : 81;
-            sendDownUpKeyEvent(keyboard->device, type, x_scancode);
-            break;
-
-        case 75: /* 4 or Left */
-            x_scancode = is_ext ? 113 : 83;
-            sendDownUpKeyEvent(keyboard->device, type, x_scancode);
-            break;
-
-        case 77: /* 6 or Right */
-            x_scancode = is_ext ? 114 : 85;
-            sendDownUpKeyEvent(keyboard->device, type, x_scancode);
-            break;
-
-        case 79: /* 1 or End */
-            x_scancode = is_ext ? 115 : 87;
-            sendDownUpKeyEvent(keyboard->device, type, x_scancode);
-            break;
-
-        case 80: /* 2 or Down */
-            x_scancode = is_ext ? 116 : 88;
-            sendDownUpKeyEvent(keyboard->device, type, x_scancode);
-            break;
-
-        case 81: /* 3 or PgDn */
-            x_scancode = is_ext ? 117 : 89;
-            sendDownUpKeyEvent(keyboard->device, type, x_scancode);
-            break;
-
-        case 82: /* 0 or Insert */
-            x_scancode = is_ext ? 118 : 90;
-            sendDownUpKeyEvent(keyboard->device, type, x_scancode);
-            break;
-
-        case 83: /* . or Delete */
-            x_scancode = is_ext ? 119 : 91;
-            sendDownUpKeyEvent(keyboard->device, type, x_scancode);
-            break;
-
-        case 91: /* left win key */
-            rdpEnqueueKey(keyboard->device, type, 133);
-            break;
-
-        case 92: /* right win key */
-            rdpEnqueueKey(keyboard->device, type, 134);
-            break;
-
-        case 93: /* menu key */
-            rdpEnqueueKey(keyboard->device, type, 135);
-            break;
-
-        case 89: /* left meta */
-            rdpEnqueueKey(keyboard->device, type, 205);
-            break;
-
-        case 90: /* right meta */
-            rdpEnqueueKey(keyboard->device, type, 205);
-            break;
-
-        case 115: /* "/ ?" on br keyboard */
-            sendDownUpKeyEvent(keyboard->device, type, 106);
-            break;
-
-        case 126: /* . on br keypad */
-            sendDownUpKeyEvent(keyboard->device, type, 129);
-            break;
-
         default:
-            x_scancode = rdp_scancode + MIN_KEY_CODE;
-
-            if (x_scancode > 0)
-            {
-                sendDownUpKeyEvent(keyboard->device, type, x_scancode);
-            }
-
+            sendDownUpKeyEvent(keyboard->device, type, x_scancode);
             break;
     }
 }
